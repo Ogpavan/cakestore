@@ -7,21 +7,107 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
+        body {
+            background-color: #f8f9fa; /* Light background for contrast */
+        }
         .navbar-custom {
-            background-color: rgb(228, 117, 135);
+            background-color: #ff69b4;
         }
         .navbar-brand {
-            color: beige;
+            color: white;
         }
         .btn-pink-outline {
             border: 2px solid #ff69b4;
             color: #ff69b4;
             background-color: white;
             padding: 0.5rem 1.5rem;
+            transition: background-color 0.3s, color 0.3s;
         }
         .btn-pink-outline:hover {
-            background-color: white;
+            background-color: #ff69b4;
+            color: white;
+        }
+        .card {
+            transition: transform 0.2s;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative; /* For positioning the ribbon */
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .homepage-text {
+            position: relative;
+            margin-top: 50px;
+            text-align: center;
+            padding: 50px 20px;
+            color: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .homepage-text::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://images.pexels.com/photos/806363/pexels-photo-806363.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+        .homepage-text::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2;
+        }
+        .homepage-text h1,
+        .homepage-text p {
+            position: relative;
+            z-index: 3;
+        }
+        .card-title {
+            font-weight: bold;
+
+        }
+        .ribbon {
+            position: absolute;
+            top: 0;
+            left: -5px;
+            background-color: #ff69b4;
+            color: white;
+            padding: 5px 10px;
+            transform: rotate(-30deg);
+            z-index: 10;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .btn-pinku{
+            background-color: #ff69b4;
+            border: 2px solid #ff69b4;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .flex{
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+           
+        }
+        .available{
             color: #ff69b4;
+            align-items: end;
+            margin: 0;
+           font-size: small;
+            
+            
         }
     </style>
 </head>
@@ -47,8 +133,8 @@
 
                 {% if request.user.is_authenticated %}
                     <div class="d-flex">
-                        <a href="{% url 'login' %}" class="btn btn-pink-outline fw-medium" style="width: 120px;">Dashboard</a>
-                        <a href="{% url 'order' %}" class="btn btn-pink-outline ms-3" style="width: 70px;" aria-label="Cart">
+                        <a href="{% url 'login' %}" class="btn btn-pink-outline fw-medium"  >Dashboard</a>
+                        <a href="{% url 'order' %}" class="btn btn-pink-outline ms-3"   aria-label="Cart">
                             <i class="fas fa-shopping-cart" id="cart-btn">{{ request.user.get_cart_count }}</i>
                         </a>
                     </div>
@@ -62,19 +148,27 @@
         </div>
     </nav>
 
+    <div class="container mt-5 homepage-text">
+        <h1>Welcome to CakeDelight!</h1>
+        <p class="home-text">Indulge in our delightful range of cakes, made with love and the finest ingredients.<br/> Explore our selection and treat yourself to a sweet experience.</p>
+    </div>
+
     <div class="container mt-5">
         <div class="row">
             {% for cake in cakes %}
-            <div class="col me-1">
-                <div class="card border border-5 border-danger-subtle" style="width: 18rem;">
-                    <img src="{{ cake.images.url }}" style="height: 230px" class="card-img-top" alt="{{ cake.cake_name }}">
+            <div class="col-md-4 mb-4">
+                <div class="card border border-danger-subtle">
+                    <span class="ribbon">20% OFF</span>
+                    <img src="{{ cake.images.url }}" class="card-img-top img-fluid" alt="{{ cake.cake_name }}" style="height: 230px; object-fit: cover;">
                     <div class="card-body">
                         <h5 class="card-title">{{ cake.cake_name }}</h5>
                         <p>{{ cake.price }} | Category: {{ cake.category.category_name }}</p>
-                        <a href="{% url 'add_cart' cake.uid %}" class="btn btn-success">
+                     <div class="flex">
+                        <a href="{% url 'add_cart' cake.uid %}" class="btn-pinku  ">
                             <i class="fas fa-shopping-cart"></i> Cart
                         </a>
-                        <a href="#" class="btn btn-primary">20% discount</a>
+                        <p class="available">Available from tomorrow</p>
+                        </div>
                     </div>
                 </div>
             </div>
