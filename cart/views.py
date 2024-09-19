@@ -116,16 +116,6 @@ def review(request):
 def about(request):
     return render(request,'about.html')   
 
-
-
-import razorpay
-from django.conf import settings
-from django.http import HttpResponseBadRequest
-from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
-from .models import Info
-import logging
-
 logger = logging.getLogger(__name__)
 
 def pay(request):
