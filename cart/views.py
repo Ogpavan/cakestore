@@ -12,6 +12,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from .models import Info
 
+import logging
+
 
 
 
@@ -23,7 +25,7 @@ def index(request):
     cakes= Cake.objects.all()
     context={'cakes':cakes}
     print(context)
-    return render(request,'home.html',context)
+    return render(request,'index.html',context)
 
 
 
